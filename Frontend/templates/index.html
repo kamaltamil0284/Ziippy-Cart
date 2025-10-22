@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Zippy Cart
+{% endblock title %}
+
+{% block content %}
+    <section class="container-xxl">
+        <div class="row justify-content-around">
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="col-md-7 col-12">
+                        <div class="alert alert-{{msg.tags}} alert-dismissible mb-4" role="alert">
+                            {{ msg }}
+                            <button class="btn btn-close" data-bs-dismiss="alert" type="submit"></button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+    <section class="container-xxl rounded-2 p-0">
+        {% include 'banners.html' %}
+    </section>
+    <section class="container-xxl bg-light-subtle mt-5 rounded-2">
+        <div class="row text-center">
+            {% for item in category %}
+                <div class="col-lg col-md-3 col-4 p-1">
+                    <div class="card scale h-100" style="width:fit-content;">
+                        <a href="{% url 'collections' item.name  %}" class="card-link">
+                            <img class="card-img-top" src="{{item.image.url}}" alt="">
+                            <p class="card-title text-nowrap">{{item.name}}</p>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock content %}

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}Product Details{% endblock title %}
+{% block content %}
+    <!-- Authenticate users only make orders -->
+    <div class="modal" id="loginnow">
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header border-bottom-0 ">
+                    <h3 class="modal-title ">Login now</h3>
+                    <button class="btn btn-close" data-bs-dismiss="modal" type="button"></button>
+                </div>
+                <div class="modal-footer gap-2 border-top-0 justify-content-center mt-3">
+                    <a class="btn btn-primary" href="{% url 'login' %}" type="submit">Login</a>
+                    <a class="btn btn-success" href="{% url 'register' %}" type="submit">Signup</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Product details section -->
+    <section class="container-xxl">
+        <div class="row">
+            <div class="col-lg-4 col-md-5 col-sm-6 col-12 p-sm-0 p-3">
+                <img class="d-block w-100 rounded-3" src="{{ product.product_image.url }}" alt="{{product.product_name}}">
+            </div>
+            <div class="col-lg-8 col-md-7 col-sm-6 col-12 px-md-5 pt-md-5 p-3">
+                <h3>{{product.product_name}}</h3>
+                <p class="description">
+                    {{product.description}}
+                </p>
+                <h5>Seller : {{product.seller}}</h5>
+                {% if product.quantity > 0 %}
+                    <p>Available stock : {{product.quantity}}</p>
+                {% else %}
+                    <p class="text-danger">Comming soon</p>
+                {% endif %}
+                <div class="row gap-3 align-items-center m-0">
+                    <div class="col-12 d-flex flex-wrap flex-md-row flex-sm-column flex-row gap-2 justify-content-around align-items-center">
+                        <div>
+                            <p class="price-b text-danger m-0">Rs:<s>{{product.original_price}}</s></p>
+                            <p class="price-b text-success m-0">Rs:{{product.selling_price}}</p>
+                        </div>
+                        <!--  Add to favourite -->
+                        <form method="post" action="{% url 'togglefavourite' product.id %}">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-danger p-2 align-self-center" type="submit"><i class="fa-solid fa-heart"></i></button>
+                        </form>
+                    </div>
+                    <!-- Add to cart and buy now buttons -->
+                    <div class="col-12 d-flex flex-wrap flex-md-row flex-sm-column flex-row gap-2 justify-content-around align-items-center">
+                        {% if product.quantity > 0 %}
+                            {% if request.user.is_authenticated %}
+                                <!-- Quantity Control (shared) -->
+                                <div class="input-group input-group-sm mb-2" style="width: 120px;">
+                                    <button class="input-group-text bg-danger text-light" id="btnMinus" type="button"><i class="fa fa-minus"></i></button>
+                                    <input type="text" name="ProQty" id="ProQty" value="1" class="form-control text-center">
+                                    <button class="input-group-text bg-success text-light" id="btnPlus" type="button"><i class="fa fa-plus"></i></button>
+                                </div>
+
+                                <!-- Add to Cart Form -->
+                                <form action="{% url 'addcart' product.id %}" method="post" id="cartForm">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="pid" value="{{ product.id }}">
+                                    <input type="hidden" name="ProQty" id="cartProQty" value="1">
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        <i class="fa-solid fa-cart-plus"></i> Add Cart
+                                    </button>
+                                </form>
+
+                                <!-- Buy Now Form -->
+                                <form method="post" action="{% url 'payment' product.product_name %}" id="paymentForm">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="pid" value="{{ product.id }}">
+                                    <input type="hidden" name="ProQty" id="buyProQty" value="1">
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        <i class="fa-solid fa-cart-arrow-down"></i> Buy Now
+                                    </button>
+                                </form>
+                            <!-- If user is not authenticated, show login modal on button click -->
+                            {% else %}
+                                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#loginnow"><i class="fa-solid fa-cart-plus"></i> Add Cart</button>
+                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#loginnow" type="button"><i class="fa-solid fas fa-cart-arrow-down"></i> Buy now</button>
+                            {% endif %}
+                        {% else %}
+                            <!-- If product is out of stock, disable buttons -->
+                            <button class="btn btn-sm btn-secondary float-start"><s>Outof stock</s></button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="col-12 d-flex justify-content-center align-items-center">
+                        <h3>{{msg}}</h3>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+{% endblock content %}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {{user.username}} Profile
+{% endblock title %}
+
+{% block content %}  
+
+    <div class="modal fade" id="profile-edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="" method="post" autocomplete="off" autocorrect="off">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Profile Edit</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{userform|crispy}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-xxl mt-3">
+        <div class="row">
+            <div class="col-md-8 mx-auto user-details">
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <th>Name</th>
+                            <td>{{user.username}}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{user.email}}</td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            {% if  user_detail.address %}
+                            <td>{{ user_detail.address }}</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#profile-edit">Edit</button>
+                            </td>
+                            {% else %}
+                            <td></td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#profile-edit">Add Address</button>
+                            </td>
+                            {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Mobile</th>
+                            {% if  user_detail.mobile %}
+                            <td>{{ user_detail.mobile }}</td>
+                            <td>
+                                <form>
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#profile-edit">Edit</button>
+                            </td>
+                            {% else %}
+                            <td></td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#profile-edit">Add Address</button>
+                            </td>
+                            {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a class="btn btn-sm btn-success" href="{% url 'cart' %}">View cart</a></td>
+                            <td><a class="btn btn-sm btn-danger" href="{% url 'favourite' %}">View your Favourites</a></td>
+                            <td><a class="btn btn-sm btn-primary" href="">Track your orders</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>          
+    </div>
+{% endblock content %}
+

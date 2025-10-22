@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}View{% endblock title %}
+{% block content %}
+    <div class="container-xxl">
+        <div class="row">
+            {{ data }}
+            {% for user in data %}
+                <p>Username:{{user.username}}</p>
+                <p>User Id:{{user.id}}</p>
+            {% endfor %}
+        </div>    
+    </div>
+{% endblock content %}

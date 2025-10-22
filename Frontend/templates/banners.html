@@ -1,0 +1,32 @@
+{% load static %}
+<div class="carousel slide carousel-dark" id="slider" data-bs-ride="carousel">
+    <!-- Carousel indicaters -->
+     <div class="carousel-indicators">
+        <button data-bs-target="#slider" data-bs-slide-to="0" type="button" class="active"></button>
+        <button data-bs-target="#slider" data-bs-slide-to="1" type="button"></button>
+        <button data-bs-target="#slider" data-bs-slide-to="2" type="button"></button>
+        <button data-bs-target="#slider" data-bs-slide-to="3" type="button"></button>
+     </div>
+    <!-- Carousel Items -->
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="2500">
+            <img src="{% static 'images/Banner-1.jpg' %}" alt="Banner-1" class="d-block w-100">
+        </div>
+        <div class="carousel-item" data-bs-interval="2500">
+            <img src="{% static 'images/Banner-2.jpg' %}" alt="Banner-2" class="d-block w-100">
+        </div>
+        <div class="carousel-item" data-bs-interval="2500">
+            <img src="{% static 'images/Banner-3.jpg' %}" alt="Banner-3" class="d-block w-100">
+        </div>
+        <div class="carousel-item" data-bs-interval="2500">
+            <img src="{% static 'images/Banner-4.jpg' %}" alt="Banner-4" class="d-block w-100">
+        </div>
+    </div>
+    <!-- Carousel Buttons -->
+     <button class="carousel-control-prev" type="button" data-bs-target="#slider" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+     </button>
+     <button class="carousel-control-next" type="button" data-bs-target="#slider" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+     </button>
+</div>

@@ -1,0 +1,72 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v={{STATIC_VERSION}}">
+</head>
+<body>
+    <header>
+        <nav class="navbar bg-light navbar-expand-sm py-sm-1 py-0">
+            <div class="container">
+                <a class="p-0 m-0" href="{% url 'index' %}"><img src="{% static 'images/logo/Logo.png' %}" alt="Zippy Cart" class="navbar-brand" style="height: 48px;"></a>
+                <button class="navbar-toggler px-1 py-1" type="button" data-bs-toggle="collapse" data-bs-target="#NavbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="NavbarCollapse">
+                    <ul class="navbar-nav ms-auto gap-2">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+                        {% if request.user.is_authenticated %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="">{{user.username}}</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url 'profile' %}" class="dropdown-item">Profile</a></li>
+                                    <li><a href="{% url 'cart' %}" class="dropdown-item">Cart</a></li>
+                                    <li><a href="{% url 'favourite' %}" class="dropdown-item">Favourite</a></li>
+                                    <li><a href="{% url 'logout' %}" class="dropdown-item">Logout</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                            {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="container-fluid main-page py-5" >
+        {% block content %}
+        
+        {% endblock content %}
+    </main>
+    <footer class="container-fluid bg-light p-3 footer">
+        <div class="row gap-sm-0 gap-3 text-center">
+            <div class="col-sm-4">
+                <h4 class="p-1">Contact</h4>                
+                <p>+91 1234567890</p>
+            </div>
+            <div class="col-sm-4">
+                <h4 class="p-1">Address</h4>
+                <p>India</p>
+            </div>
+            <div class="col-sm-4">
+                <h4 class="p-1">Follow us</h4>
+                <div class="d-flex justify-content-center gap-2">
+                    <a class="nav-link" href=""><i class="fa-brands fa-square-facebook"></i></a>
+                    <a class="nav-link" href=""><i class="fa-brands fa-square-instagram"></i></a>
+                    <a class="nav-link" href=""><i class="fa-brands fa-square-twitter"></i></a>
+                </div>
+            </div>
+            <div class="col-12">
+                <p><i class="fa-regular fa-copyright"></i> All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

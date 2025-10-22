@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Collections{% endblock title %}
+{% block content %}
+    <section class="container-xxl bg-light-subtle p-0 rounded-2">
+        <div class="row text-center m-0">
+            <div class="col-12 p-2">
+                <h2 class="category-name">{{category_name}} Products</h2>
+            </div>
+        </div>
+    </section>
+    <section class="container-xxl p-0 pt-5">
+        <div class="row text-center m-0">
+            {% for product in products %}
+                <div class="col-xxl col-lg-2 col-md-3 col-4 p-1">
+                    <div class="card scale">
+                        <a href="{% url 'product' category_name product.product_name %}" class="card-link">
+                            {% if product.product_image %}
+                                <img class="card-img p-1" src="{{ product.product_image.url }}" alt="{{product.product_name}}">
+                            {% endif %}
+                            <p class="card-title ">{{product.product_name}}</p>
+                        </a>
+                        <div class="card-footer p-xxl-0 p-sm-3 p-1">
+                            <p class="price float-sm-start text-danger m-0">Rs:<s>{{product.original_price}}</s></p>
+                            <p class="price float-sm-end text-success m-0">Rs:{{product.selling_price}}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="col-12 d-flex justify-content-center align-items-center"  style="min-height: 40dvh;">
+                        <h3>{{msg}}</h3>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+{% endblock content %}

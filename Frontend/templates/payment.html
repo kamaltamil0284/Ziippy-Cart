@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Payment{% endblock %}
+
+{% block content %}
+<section class="container-xxl mt-4">
+    <div class="row">
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="alert alert-{{ msg.tags }} alert-dismissible fade show" role="alert">
+                    {{ msg }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="row text-center rounded-2 p-2 bg-light mb-4">
+        <h2>Payment</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card p-3 mb-3 text-center">
+                {% if buy %}
+                    <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1">
+                        {% for p in buy %}
+                            <div class="col mb-3">
+                                <a href="{% url 'product' p.product.category.name p.product.product_name %}">
+                                    <img class="rounded-3" style="width: 100px;" src="{{ p.product.product_image.url }}" alt="{{p.product.product_name}}">
+                                </a>
+                                <p>Product: {{ p.product.product_name }}</p>
+                                <p>Quantity: {{ p.quantity }}</p>
+                                <p>Rs: {{ p.product.selling_price }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% elif product %}
+                    <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1 justify-content-around">
+                        <div class="col mb-3">
+                            <a href="{% url 'product' product.category.name product.product_name %}">
+                                <img class="rounded-3" style="width: 100px;" src="{{ product.product_image.url }}" alt="{{ product.product_name }}">
+                            </a>
+                            <p>Product: {{ product.product_name }}</p>
+                            {% if ProQty %}
+                                <p>Quantity: {{ ProQty }}</p>
+                            {% endif %}
+                            <p>Rs: {{ product.selling_price }}</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>No items in cart.</p>
+                {% endif %}
+            </div>
+
+            <div class="card p-3 text-center">
+                <p>Total amount: <strong>Rs {{ total }}</strong></p>
+
+                <div class="d-sm-flex justify-content-evenly">
+                    <p>
+                        <a class="btn btn-sm btn-outline-danger" href="{% url 'cart' %}">Back to Cart</a>
+                    </p>
+
+                    {% if buy or product %}
+                        <form method="POST" action="{% url 'success' %}">
+                            {% csrf_token %}
+                            <script
+                                src="https://checkout.razorpay.com/v1/checkout.js"
+                                data-key="rzp_test_RTg9mWaNVjSuGb"
+                                data-amount="{{ amount }}"
+                                data-currency="INR"
+                                data-order_id="{{ payment.id }}"
+                                data-buttontext="Pay with Razorpay"
+                                data-name="Zippy Cart"
+                                data-description="Zippy Cart Payment"
+                                data-image="{% static 'images/logo.png' %}"
+                                data-prefill.name="{{ request.user.get_full_name }}"
+                                data-prefill.email="{{ request.user.email }}"
+                                data-theme.color="#198754">
+                            </script>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
