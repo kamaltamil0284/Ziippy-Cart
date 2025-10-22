@@ -1,0 +1,94 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;   
+}
+.navbar-toggler-icon {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+}
+.nav-link{
+  font-weight: 600;
+}
+p{
+  font-size: clamp(.75rem,1.5vw,1.25rem);
+}
+.dropdown-item:active{
+  background-color: gainsboro;
+  color: black;
+}
+.card-title{
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.img:hover{
+  cursor: pointer;
+}
+.scale{
+  transition: scale .2s ease-in-out;
+}
+.scale:active{
+  scale: .95;
+}
+.card-link{
+  text-decoration: none;
+  color: black;
+}
+.price{
+  font-size: 12px;
+}
+.description{
+  font-size: clamp(1rem,2.5vw,1.25rem);
+  text-align: justify;
+}
+.price-b{
+  font-size: clamp(0.75rem,1.5vw,1rem);
+}
+.main-page{
+  min-height: calc(100vh - (155px + 56px));
+}
+.footer{
+  height: 155px;
+}
+
+.user-details tr th, .user-details tr td{
+  padding-bottom: 24px;
+}
+.razorpay-payment-button {
+    color: #fff !important;
+    background-color: #198754 !important;
+    border: 1px solid #198754 !important;
+    padding: 0.375rem 0.75rem !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    border-radius: 0.375rem !important;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, 
+                border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+.razorpay-payment-button:hover {
+    background-color: #157347 !important;
+    border-color: #146c43 !important;
+}
+
+.razorpay-payment-button:focus {
+    outline: 0 !important;
+    box-shadow: 0 0 0 0.25rem rgba(60, 153, 110, 0.5) !important;
+}
+
+.razorpay-payment-button:active {
+    background-color: #146c43 !important;
+    border-color: #13653f !important;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125) !important;
+}
+
+@media (max-width:576px) {
+  .card-title{
+    font-size: .625rem;
+  }
+  .main-page{
+  min-height: calc(100vh - (304px + 48px));
+}
+  .footer{height: 304px;}
+}
