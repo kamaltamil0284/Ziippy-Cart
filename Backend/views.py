@@ -181,8 +181,8 @@ class PaymentView(LoginRequiredMixin, View):
 
     def post(self, request, all):
         try:
-            client = razorpay.Client(auth=("rzp_test_RTg9mWaNVjSuGb", "MOGKtpT6e05jaZnc3FEPFwbD"))
-
+            client = razorpay.Client(auth=("keys"))
+            
             if all == 'buy':
                 total_amount = 0
                 products = Cart.objects.filter(user=request.user).order_by('-created_at')
@@ -224,5 +224,6 @@ class PaymentView(LoginRequiredMixin, View):
 @method_decorator(csrf_exempt, name='dispatch')
 class SuccessView(LoginRequiredMixin, View):
     login_url = 'profile'
+
 
     
